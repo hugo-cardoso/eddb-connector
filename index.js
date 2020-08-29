@@ -34,7 +34,7 @@ sock.on('message', topic => {
         topicParsed.$schemaRef == 'https://eddn.edcd.io/schemas/journal/1'
     ) {
 
-        if ( writeCount === 20 ) {
+        if ( writeCount === 250 ) {
             sendBatch(batch)
             batch = db.batch()
             writeCount = 0
