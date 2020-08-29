@@ -1,0 +1,21 @@
+{
+  "name": "eddb-connector",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "engines": {
+    "node": "12.x"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "firebase": "^7.19.1",
+    "firebase-admin": "^9.1.1",
+    "underscore": "^1.11.0",
+    "zeromq": "^5.2.0",
+    "zlib": "^1.0.5"
+  }
+}
