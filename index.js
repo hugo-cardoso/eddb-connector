@@ -1,17 +1,25 @@
 const admin = require('firebase-admin');
+const express = require('express');
+const app = express();
 
 const _ = require('underscore');
+const axios = require('axios').default;
 const fs = require('fs');
 const zlib = require('zlib');
 const zmq = require("zeromq");
 const sock = zmq.socket('sub');
 const serviceAccount = require('./firebaseKey.json');
+const { get } = require('http');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
-});
+})
 
 const db = admin.firestore();
+
+app.use('/', (req, res) => {
+    res.send('Ok')
+})
 
 sock.connect('tcp://eddn.edcd.io:9500');
 sock.subscribe('')
@@ -38,6 +46,8 @@ sock.on('message', topic => {
             sendBatch(batch)
             batch = db.batch()
             writeCount = 0
+
+            axios.get(process.env.DOMAIN_URL ||'http://localhost:3000').then(() => console.log('Waked'))
         }
 
         let ships = {}
@@ -105,4 +115,9 @@ sock.on('message', topic => {
             console.log(`Commodity [${writeCount}] ${message.systemName}/${message.stationName}`)
         }
     }
+})
+
+const port = process.env.PORT || 3000
+app.listen(port,function(){
+    console.log(`Running in ${ port }`);
 });
